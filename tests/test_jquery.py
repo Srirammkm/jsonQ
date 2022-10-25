@@ -56,6 +56,8 @@ class TestSimple(unittest.TestCase):
     def test_tolist_2(self):
         self.assertEqual(len(sample.where("sex == M").tolist(limit=2)),2)
 
+    def test_get(self):
+        self.assertEqual(sample.where("sex == M").where("age > 999").get("age"),[1500,1054,1000])
 
 if __name__ == '__main__':
     unittest.main()
