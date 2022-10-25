@@ -67,7 +67,6 @@ class Query():
             filter.append(i[key])
         return filter
 
-
     def tolist(self,limit=None):
         if isinstance(limit, int):
             return self.data[:limit]
