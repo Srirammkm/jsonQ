@@ -17,7 +17,7 @@ a = [
         "gender":"M",
         "family": "Avengers",
         "favorite":{
-            "food": ["junkfood","coke"]
+            "food": ["banana","pizza"]
         }
     },
     {
@@ -29,7 +29,7 @@ a = [
         "gender": "M",
         "family": "Avengers",
         "favorite":{
-            "food": ["pear","pizza"]
+            "food": ["peas","pizza"]
         }
     },
     {
