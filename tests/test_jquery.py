@@ -1,6 +1,6 @@
 import unittest
 
-from jquery import Query
+from src.jquery import Query
 
 test_data = [
     {
