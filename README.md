@@ -51,7 +51,7 @@ a = [
 
 out = Query(a)
 food = "peas"
-out = out.where("sex == M").where(f"{food} in favorite.food").where("age > 1000").tolist()
+out = out.where("sex == M").where(f"{food} in favorite.food").where("age == 1000").tolist()
 
 print(json.dumps(out,indent=4))
 
