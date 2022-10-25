@@ -1,9 +1,9 @@
 # jsonQ
-
+Installation
 ```sh
 pip install jsonQ
 ```
-
+Example
 ```
 import json
 from jquery import Query
@@ -56,6 +56,7 @@ out = out.where("sex == M").where(f"{food} in favorite.food").where("age > 1000"
 print(json.dumps(out,indent=4))
 
 ```
+Output
 ```
 ➜  jquery python3  main.py
 [
