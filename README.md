@@ -56,3 +56,26 @@ out = out.where("sex == M").where(f"{food} in favorite.food").where("age > 1000"
 print(json.dumps(out,indent=4))
 
 ```
+```
+➜  jquery python3  main.py
+[
+    {
+        "name": {
+            "first": "Thanos",
+            "last": null
+        },
+        "age": 1000,
+        "sex": "M",
+        "family": "Avengers",
+        "favorite": {
+            "food": [
+                "peas",
+                "banana"
+            ],
+            "movie": [
+                "infinity-war"
+            ]
+        }
+    }
+]
+```
