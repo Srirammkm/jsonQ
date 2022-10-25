@@ -49,6 +49,12 @@ class TestSimple(unittest.TestCase):
 
     def test_where_1(self):
         self.assertEqual(sample.where("sex == M").where(f"peas in favorite.food").where("age == 1000").tolist(),[{'name': {'first': 'Thanos', 'last': None}, 'age': 1000, 'sex': 'M', 'family': 'Avengers', 'favorite': {'food': ['peas', 'banana'], 'movie': ['infinity-war']}}])
+    
+    def test_tolist_1(self):
+        self.assertEqual(len(sample.where("sex == M").tolist()),3)
+    
+    def test_tolist_2(self):
+        self.assertEqual(len(sample.where("sex == M").tolist(limit=2)),2)
 
 
 if __name__ == '__main__':
