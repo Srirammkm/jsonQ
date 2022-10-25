@@ -3,7 +3,7 @@ Installation
 ```sh
 pip install jsonQ
 ```
-Example
+Example main.py
 ```
 import json
 from jquery import Query
@@ -58,7 +58,7 @@ print(json.dumps(out,indent=4))
 ```
 Output
 ```
-➜  jquery python3  main.py
+➜  python3  main.py
 [
     {
         "name": {
