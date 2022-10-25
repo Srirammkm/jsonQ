@@ -14,7 +14,7 @@ a = [
             "last": "Odinson"
         },
         "age": 1500,
-        "sex":"M",
+        "gender":"M",
         "family": "Avengers",
         "favorite":{
             "food": ["junkfood","coke"]
@@ -26,7 +26,7 @@ a = [
             "last": "Odinson"
         },
         "age": 1054,
-        "sex": "M",
+        "gender": "M",
         "family": "Avengers",
         "favorite":{
             "food": ["pear","pizza"]
@@ -38,7 +38,7 @@ a = [
             "last": None,
         },
         "age": 1000,
-        "sex": "M",
+        "gender": "M",
         "family": "Avengers",
         "favorite":{
             "food": ["peas","banana"],
@@ -51,7 +51,7 @@ a = [
 
 out = Query(a)
 food = "peas"
-out = out.where("sex == M").where(f"{food} in favorite.food").where("age == 1000").tolist()
+out = out.where("gender == M").where(f"{food} in favorite.food").where("age == 1000").tolist()
 
 print(json.dumps(out,indent=4))
 
@@ -66,7 +66,7 @@ Output
             "last": null
         },
         "age": 1000,
-        "sex": "M",
+        "gender": "M",
         "family": "Avengers",
         "favorite": {
             "food": [
