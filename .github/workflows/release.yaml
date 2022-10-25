@@ -2,6 +2,9 @@ name: Release
 
 on:
   push:
+    paths:
+      - src/*
+      - pyproject.toml
     branches:
       - main
 

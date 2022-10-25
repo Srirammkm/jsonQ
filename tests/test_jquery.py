@@ -59,5 +59,6 @@ class TestSimple(unittest.TestCase):
     def test_get(self):
         self.assertEqual(sample.where("sex == M").where("age > 999").get("age"),[1500,1054,1000])
 
+
 if __name__ == '__main__':
     unittest.main()
