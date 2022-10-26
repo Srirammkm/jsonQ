@@ -80,3 +80,7 @@ Output
     }
 ]
 ```
+```
+out.where("favorite.*.food == eggos").tolist()
+out.where("beer in favorite.*.food").tolist()
+```
