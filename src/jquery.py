@@ -1,6 +1,6 @@
 class Query():
 
-    def __init__(self,data):
+    def __init__(self,data:list) -> list:
         self.data = data
 
     def __build_query(self,q,condition,string_operator,sub_q=None):
@@ -43,8 +43,8 @@ class Query():
         _list = False
         if "*" in condition_pos_0:
             _list = True
+        _subQ_para = condition[0].split(".")
         for q in self.data:
-            _subQ_para = condition[0].split(".")
             if len(_subQ_para) > 1:
                 _q = q
                 for i in _subQ_para[:-1]:
@@ -73,10 +73,21 @@ class Query():
         return Query(self.out)
     
     def get(self,key):
-        de = []
-        for d in self.data:
-            de.append(d[key])
-        return de
+        filter = []
+        _subQ_key = key.split(".")
+        for q in self.data:
+            if len(_subQ_key) > 1:
+                _q = q
+                for i in _subQ_key:
+                    try:
+                        sub_q = self.__subQuery(_q,i)
+                        _q = sub_q
+                    except:
+                        pass
+                filter.append(_q)
+            else:
+                filter.append(q[key])
+        return filter
 
     def tolist(self,limit=None):
         if isinstance(limit, int):

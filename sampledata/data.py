@@ -68,6 +68,20 @@ def test_data():
                 }
             ]
 
+        },
+        {
+            "name":{
+                "first": "Joey",
+                "last": None,
+            },
+            "age": 35,
+            "sex": "M",
+            "family": "Friends",
+            "favorite":{
+                "food": "don't share food"
+            }
+
         }
+
     ]
     return test_data

@@ -43,13 +43,16 @@ class TestSimple(unittest.TestCase):
                                                                             }])
 
     def test_tolist_1(self):
-        self.assertEqual(len(sample.where("sex == M").tolist()),4)
+        self.assertEqual(len(sample.where("sex == M").tolist()),5)
     
     def test_tolist_2(self):
         self.assertEqual(len(sample.where("sex == M").tolist(limit=2)),2)
 
-    def test_get(self):
+    def test_get_0(self):
         self.assertEqual(sample.where("sex == M").where("age > 999").get("age"),[1500,1054,1000])
+    
+    def test_get_1(self):
+        self.assertEqual(sample.where("name.first == Joey").get("favorite.food")[0],"don't share food")
 
 if __name__ == '__main__':
     unittest.main()
