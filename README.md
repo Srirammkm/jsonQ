@@ -1,7 +1,7 @@
 # jsonQ
 
 <p align="center">
-  <a href="https://github.com/Srirammkm/jsonQ/blob/main/mics/Json.png"><img src="" alt="Logo" height=170></a>
+  <a href="https://github.com/Srirammkm/jsonQ/mics/Json.png"><img src="" alt="Logo" height=170></a>
   <br />
   <br />
   <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/linux-test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/linux-test.yaml/badge.svg" /></a>
