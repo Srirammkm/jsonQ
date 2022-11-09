@@ -4,9 +4,9 @@
   <a href="https://github.com/cirospaciari/socketify.py"><img src="" alt="Logo" height=170></a>
   <br />
   <br />
-  <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/test.yaml/badge.svg" /></a>
-  <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/test.yaml/badge.svg" /></a>
-  <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/test.yaml/badge.svg" /></a>
+  <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/linux-test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/linux-test.yaml/badge.svg" /></a>
+  <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/mac-test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/mac-test.yaml/badge.svg" /></a>
+  <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/windows-test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/windows-test.yaml/badge.svg" /></a>
 </p>
 
 
