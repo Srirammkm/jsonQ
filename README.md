@@ -39,9 +39,9 @@ a = [
         "age": 1054,
         "gender": "M",
         "family": "Avengers",
-        "favorite":{
+        "favorite":[{
             "food": ["peas","pizza"]
-        }
+        }]
     },
     {
         "name":{
@@ -95,6 +95,6 @@ Output
 out.where("favorite.*.food == eggos").tolist()
 out.where("beer in favorite.*.food").tolist()
 out.where("food in favorite.*.food").get("age")
-out.where("food in favorite.*.food").get("name.first")
+out.where("food in favorite.food").get("name.first")
 ```
 
