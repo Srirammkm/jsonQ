@@ -4,8 +4,8 @@ Comprehensive showcase of jsonQ v3.0 features.
 """
 
 import json
-import sys
 import os
+import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

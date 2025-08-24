@@ -4,10 +4,11 @@ Test coverage analysis for jsonQ module.
 This file identifies missing test coverage and creates comprehensive tests.
 """
 
-import unittest
-from src.jquery import Query, QueryIndex
-from sampledata import data
 import re
+import unittest
+
+from sampledata import data
+from src.jquery import Query, QueryIndex
 
 
 class TestMissingCoverage(unittest.TestCase):

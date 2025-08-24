@@ -1,6 +1,7 @@
 import unittest
-from src.jquery import Query
+
 from sampledata import data
+from src.jquery import Query
 
 
 class TestNewFeatures(unittest.TestCase):

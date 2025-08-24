@@ -4,10 +4,11 @@ Edge case tests for jsonQ module.
 Tests unusual scenarios, error conditions, and boundary cases.
 """
 
-import unittest
-from src.jquery import Query, QueryIndex
-from sampledata import data
 import json
+import unittest
+
+from sampledata import data
+from src.jquery import Query, QueryIndex
 
 
 class TestEdgeCases(unittest.TestCase):

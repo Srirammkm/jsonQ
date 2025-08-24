@@ -1,11 +1,11 @@
-from typing import List, Dict, Any, Union, Optional, Callable, Tuple, Set
-import operator
-import re
-from collections import defaultdict, Counter
-from functools import lru_cache
 import bisect
 import hashlib
 import json
+import operator
+import re
+from collections import Counter, defaultdict
+from functools import lru_cache
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 
 
 class QueryIndex:
