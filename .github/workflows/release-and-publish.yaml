@@ -84,7 +84,7 @@ jobs:
     - name: Publish to Test PyPI
       env:
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         echo "🧪 Publishing to Test PyPI..."
         twine upload --repository testpypi dist/*
@@ -98,7 +98,7 @@ jobs:
     - name: Publish to PyPI
       env:
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         echo "🚀 Publishing to PyPI..."
         twine upload dist/*
