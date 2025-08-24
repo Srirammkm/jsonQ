@@ -8,10 +8,10 @@
   <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/mac-test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/mac-test.yaml/badge.svg" /></a>
   <a href="https://github.com/Srirammkm/jsonQ/actions/workflows/windows-test.yaml" target="_blank"><img src="https://github.com/Srirammkm/jsonQ/actions/workflows/windows-test.yaml/badge.svg" /></a>
   <br />
-  <img src="https://img.shields.io/badge/python-3.7+-blue.svg" alt="Python 3.7+">
-  <img src="https://img.shields.io/badge/tests-61%20passing-green.svg" alt="Tests">
-  <img src="https://img.shields.io/badge/coverage-100%25-brightgreen.svg" alt="Coverage">
-  <img src="https://img.shields.io/badge/performance-5x%20faster-orange.svg" alt="Performance">
+  <img src="https://img.shields.io/badge/python-3.7+-blue.svg
+  <img src="https://img.shields.io/badge/tests-61%20passing-brightgreen.svg
+  <img src="https://img.shields.io/badge/coverage-100%25-brightgreen.svg
+  <img src="https://img.shields.io/badge/performance-optimized-orange.svg
 </p>
 
 **A powerful, intuitive, and lightning-fast query interface for Python dictionaries and JSON data.** Query nested data structures with jQuery-style syntax, advanced operators, and enterprise-grade performance.
