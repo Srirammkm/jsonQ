@@ -1,0 +1,2 @@
+# Runtime dependencies for jsonQ
+# jsonQ has no external runtime dependencies - it uses only Python standard library
