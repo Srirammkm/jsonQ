@@ -25,7 +25,7 @@ jobs:
 
       - name: Run tests and collect metrics
         run: |
-          echo "🧪 Running tests to collect metrics..."
+          echo "Running tests to collect metrics..."
           python -m unittest discover tests -v > test_results.txt 2>&1
 
           # Extract test count

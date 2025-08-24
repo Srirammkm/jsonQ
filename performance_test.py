@@ -6,11 +6,11 @@ Performance test to demonstrate improvements in the Query module.
 import time
 import json
 from src.jquery import Query
-from sampledata.data import test_data
+from sampledata import data
 
 def generate_large_dataset(size=1000):
     """Generate a larger dataset for performance testing."""
-    base_data = test_data()
+    base_data = data.test_data()
     large_data = []
     
     for i in range(size):

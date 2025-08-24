@@ -2,58 +2,58 @@ name: Comprehensive CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   schedule:
     # Run tests daily at 2 AM UTC
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
 
 jobs:
   code-quality:
     name: Code Quality & Linting
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 black isort mypy pylint bandit safety
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black isort mypy pylint bandit safety
 
-    - name: Code formatting check (Black)
-      run: |
-        black --check --diff src/ tests/ examples/
+      - name: Code formatting check (Black)
+        run: |
+          black --check --diff src/ tests/ examples/
 
-    - name: Import sorting check (isort)
-      run: |
-        isort --check-only --diff src/ tests/ examples/
+      - name: Import sorting check (isort)
+        run: |
+          isort --check-only --diff src/ tests/ examples/
 
-    - name: Linting (flake8)
-      run: |
-        flake8 src/ tests/ examples/ --max-line-length=127 --extend-ignore=E203,W503
+      - name: Linting (flake8)
+        run: |
+          flake8 src/ tests/ examples/ --max-line-length=127 --extend-ignore=E203,W503
 
-    - name: Type checking (mypy)
-      run: |
-        mypy src/ --ignore-missing-imports
+      - name: Type checking (mypy)
+        run: |
+          mypy src/ --ignore-missing-imports
 
-    - name: Code quality (pylint)
-      run: |
-        pylint src/ --disable=C0114,C0115,C0116 --max-line-length=127
+      - name: Code quality (pylint)
+        run: |
+          pylint src/ --disable=C0114,C0115,C0116 --max-line-length=127
 
-    - name: Security check (bandit)
-      run: |
-        bandit -r src/ -f json
+      - name: Security check (bandit)
+        run: |
+          bandit -r src/ -f json
 
-    - name: Dependency security check (safety)
-      run: |
-        safety check
+      - name: Dependency security check (safety)
+        run: |
+          safety check
 
   test-matrix:
     name: Test Matrix
@@ -62,289 +62,296 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         exclude:
           # Reduce matrix size for faster CI
           - os: macos-latest
-            python-version: '3.8'
+            python-version: "3.8"
           - os: windows-latest
-            python-version: '3.8'
+            python-version: "3.8"
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install coverage pytest pytest-cov pytest-xdist
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install coverage pytest pytest-cov pytest-xdist
 
-    - name: Run test suite
-      run: |
-        python -m unittest discover tests -v
+      - name: Run test suite
+        run: |
+          python -m unittest discover tests -v
 
-    - name: Generate coverage report
-      run: |
-        coverage run -m unittest discover tests
-        coverage xml
+      - name: Generate coverage report
+        run: |
+          coverage run -m unittest discover tests
+          coverage xml
 
-    - name: Upload coverage to Codecov
-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
 
   performance-tests:
     name: Performance Tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install memory-profiler psutil
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install memory-profiler psutil
 
-    - name: Run performance benchmarks
-      run: |
-        echo "🚀 Running performance benchmarks..."
-        python performance_test.py
+      - name: Run performance benchmarks
+        run: |
+          echo "🚀 Running performance benchmarks..."
+          python performance_test.py
 
-    - name: Memory usage test
-      run: |
-        echo "🧠 Testing memory usage..."
-        python -c "
-        import sys
-        sys.path.append('.')
-        from src.jquery import Query
-        from sampledata.data import test_data
-        
-        # Test memory efficiency
-        large_data = test_data() * 1000
-        query = Query(large_data)
-        
-        # Run various operations
-        result1 = query.where('sex == M').count()
-        result2 = query.group_by('family')
-        result3 = query.stats('age')
-        
-        print(f'✅ Memory test passed - processed {len(large_data)} records')
-        print(f'   Males: {result1}')
-        print(f'   Families: {len(result2)}')
-        print(f'   Age stats: {result3}')
-        "
+      - name: Memory usage test
+        run: |
+          echo "🧠 Testing memory usage..."
+          python -c "
+          import sys
+          sys.path.append('.')
+          from src.jquery import Query
+          from sampledata import data
 
-    - name: Concurrent safety test
-      run: |
-        echo "🔒 Testing concurrent safety..."
-        python -c "
-        import threading
-        import sys
-        sys.path.append('.')
-        from src.jquery import Query
-        from sampledata.data import test_data
-        
-        def worker():
-            query = Query(test_data())
-            return query.where('sex == M').count()
-        
-        # Run concurrent queries
-        threads = [threading.Thread(target=worker) for _ in range(10)]
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
-        
-        print('✅ Concurrent safety test passed')
-        "
+          # Test memory efficiency
+          large_data = data.test_data() * 1000
+          query = Query(large_data)
+
+          # Run various operations
+          result1 = query.where('sex == M').count()
+          result2 = query.group_by('family')
+          result3 = query.stats('age')
+
+          print(f'✅ Memory test passed - processed {len(large_data)} records')
+          print(f'   Males: {result1}')
+          print(f'   Families: {len(result2)}')
+          print(f'   Age stats: {result3}')
+          "
+
+      - name: Concurrent safety test
+        run: |
+          echo "🔒 Testing concurrent safety..."
+          python -c "
+          import threading
+          import sys
+          sys.path.append('.')
+          from src.jquery import Query
+          from sampledata import data
+
+          def worker():
+              query = Query(data.test_data())
+              return query.where('sex == M').count()
+
+          # Run concurrent queries
+          threads = [threading.Thread(target=worker) for _ in range(10)]
+          for t in threads:
+              t.start()
+          for t in threads:
+              t.join()
+
+          print('✅ Concurrent safety test passed')
+          "
 
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Run feature showcase
-      run: |
-        echo "🎭 Running feature showcase..."
-        python examples/showcase.py
+      - name: Run feature showcase
+        run: |
+          echo "🎭 Running feature showcase..."
+          python examples/showcase.py
 
-    - name: Test real-world scenarios
-      run: |
-        echo "🌍 Testing real-world scenarios..."
-        python -c "
-        import json
-        import sys
-        sys.path.append('.')
-        from src.jquery import Query
-        
-        # Simulate API response processing
-        api_data = [
-            {'id': i, 'status': 'active' if i % 2 == 0 else 'inactive', 
-             'score': 80 + (i % 20), 'category': f'cat_{i % 5}'}
-            for i in range(1000)
-        ]
-        
-        query = Query(api_data)
-        
-        # Complex analysis
-        active_high_scorers = (query
-            .where('status == active')
-            .where('score > 90')
-            .order_by('score', ascending=False)
-            .tolist(limit=10))
-        
-        category_stats = {}
-        for cat, items in query.group_by('category').items():
-            category_stats[cat] = {
-                'count': items.count(),
-                'avg_score': items.avg('score'),
-                'active_ratio': items.where('status == active').count() / items.count()
-            }
-        
-        print(f'✅ Real-world test passed')
-        print(f'   High scorers: {len(active_high_scorers)}')
-        print(f'   Categories analyzed: {len(category_stats)}')
-        "
+      - name: Test real-world scenarios
+        run: |
+          echo "🌍 Testing real-world scenarios..."
+          python -c "
+          import json
+          import sys
+          sys.path.append('.')
+          from src.jquery import Query
 
-    - name: Backward compatibility test
-      run: |
-        echo "🔄 Testing backward compatibility..."
-        python -c "
-        import sys
-        sys.path.append('.')
-        from src.jquery import Query
-        from sampledata.data import test_data
-        
-        # Test v2.x style usage
-        query = Query(test_data())
-        
-        # Original v2.x methods should work
-        result1 = query.where('sex == M').where('age > 1000').tolist()
-        result2 = query.where('name.first == Thor').get('age')
-        result3 = query.count()
-        
-        print(f'✅ Backward compatibility test passed')
-        print(f'   Complex filter: {len(result1)} results')
-        print(f'   Field extraction: {result2}')
-        print(f'   Total count: {result3}')
-        "
+          # Simulate API response processing
+          api_data = [
+              {'id': i, 'status': 'active' if i % 2 == 0 else 'inactive', 
+               'score': 80 + (i % 20), 'category': f'cat_{i % 5}'}
+              for i in range(1000)
+          ]
+
+          query = Query(api_data)
+
+          # Complex analysis
+          active_high_scorers = (query
+              .where('status == active')
+              .where('score > 90')
+              .order_by('score', ascending=False)
+              .tolist(limit=10))
+
+          category_stats = {}
+          for cat, items in query.group_by('category').items():
+              category_stats[cat] = {
+                  'count': items.count(),
+                  'avg_score': items.avg('score'),
+                  'active_ratio': items.where('status == active').count() / items.count()
+              }
+
+          print(f'✅ Real-world test passed')
+          print(f'   High scorers: {len(active_high_scorers)}')
+          print(f'   Categories analyzed: {len(category_stats)}')
+          "
+
+      - name: Backward compatibility test
+        run: |
+          echo "🔄 Testing backward compatibility..."
+          python -c "
+          import sys
+          sys.path.append('.')
+          from src.jquery import Query
+          from sampledata import data
+
+          # Test v2.x style usage
+          query = Query(data.test_data())
+
+          # Original v2.x methods should work
+          result1 = query.where('sex == M').where('age > 1000').tolist()
+          result2 = query.where('name.first == Thor').get('age')
+          result3 = query.count()
+
+          print(f'✅ Backward compatibility test passed')
+          print(f'   Complex filter: {len(result1)} results')
+          print(f'   Field extraction: {result2}')
+          print(f'   Total count: {result3}')
+          "
 
   documentation-tests:
     name: Documentation Tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Test README examples
-      run: |
-        echo "📚 Testing README examples..."
-        python -c "
-        # Test the main README example
-        import sys
-        sys.path.append('.')
-        from src.jquery import Query
-        import json
-        
-        heroes = [
-            {
-                'name': {'first': 'Thor', 'last': 'Odinson'},
-                'age': 1500, 'active': True, 'score': 95,
-                'family': 'Avengers',
-                'powers': ['thunder', 'strength', 'flight']
-            },
-            {
-                'name': {'first': 'Iron Man', 'last': None},
-                'age': 45, 'active': True, 'score': 88,
-                'family': 'Avengers', 
-                'powers': ['technology', 'flight']
-            }
-        ]
-        
-        query = Query(heroes)
-        avengers = query.where('family == Avengers').tolist()
-        avg_score = query.where('family == Avengers').avg('score')
-        
-        assert len(avengers) == 2
-        assert avg_score == 91.5
-        
-        print('✅ README examples work correctly')
-        "
+      - name: Test README examples
+        run: |
+          echo "📚 Testing README examples..."
+          python -c "
+          # Test the main README example
+          import sys
+          sys.path.append('.')
+          from src.jquery import Query
+          import json
 
-    - name: Validate API documentation
-      run: |
-        echo "📖 Validating API documentation..."
-        python -c "
-        import sys
-        sys.path.append('.')
-        from src.jquery import Query
-        import inspect
-        
-        # Check that all public methods have docstrings
-        query = Query([])
-        methods = [method for method in dir(query) if not method.startswith('_') or method in ['__len__', '__bool__', '__iter__', '__getitem__']]
-        
-        missing_docs = []
-        for method_name in methods:
-            method = getattr(query, method_name)
-            if callable(method) and not method.__doc__:
-                missing_docs.append(method_name)
-        
-        if missing_docs:
-            print(f'❌ Missing documentation for: {missing_docs}')
-            exit(1)
-        else:
-            print(f'✅ All {len(methods)} public methods have documentation')
-        "
+          heroes = [
+              {
+                  'name': {'first': 'Thor', 'last': 'Odinson'},
+                  'age': 1500, 'active': True, 'score': 95,
+                  'family': 'Avengers',
+                  'powers': ['thunder', 'strength', 'flight']
+              },
+              {
+                  'name': {'first': 'Iron Man', 'last': None},
+                  'age': 45, 'active': True, 'score': 88,
+                  'family': 'Avengers', 
+                  'powers': ['technology', 'flight']
+              }
+          ]
+
+          query = Query(heroes)
+          avengers = query.where('family == Avengers').tolist()
+          avg_score = query.where('family == Avengers').avg('score')
+
+          assert len(avengers) == 2
+          assert avg_score == 91.5
+
+          print('✅ README examples work correctly')
+          "
+
+      - name: Validate API documentation
+        run: |
+          echo "📖 Validating API documentation..."
+          python -c "
+          import sys
+          sys.path.append('.')
+          from src.jquery import Query
+          import inspect
+
+          # Check that all public methods have docstrings
+          query = Query([])
+          methods = [method for method in dir(query) if not method.startswith('_') or method in ['__len__', '__bool__', '__iter__', '__getitem__']]
+
+          missing_docs = []
+          for method_name in methods:
+              method = getattr(query, method_name)
+              if callable(method) and not method.__doc__:
+                  missing_docs.append(method_name)
+
+          if missing_docs:
+              print(f'❌ Missing documentation for: {missing_docs}')
+              exit(1)
+          else:
+              print(f'✅ All {len(methods)} public methods have documentation')
+          "
 
   test-summary:
     name: Test Summary
     runs-on: ubuntu-latest
-    needs: [code-quality, test-matrix, performance-tests, integration-tests, documentation-tests]
+    needs:
+      [
+        code-quality,
+        test-matrix,
+        performance-tests,
+        integration-tests,
+        documentation-tests,
+      ]
     if: always()
     steps:
-    - name: Test Results Summary
-      run: |
-        echo "🎉 CI/CD Pipeline Summary"
-        echo "========================"
-        echo "✅ Code Quality: ${{ needs.code-quality.result }}"
-        echo "✅ Test Matrix: ${{ needs.test-matrix.result }}"
-        echo "✅ Performance: ${{ needs.performance-tests.result }}"
-        echo "✅ Integration: ${{ needs.integration-tests.result }}"
-        echo "✅ Documentation: ${{ needs.documentation-tests.result }}"
-        echo ""
-        echo "📊 Test Statistics:"
-        echo "   • 61 comprehensive test cases"
-        echo "   • 100% feature coverage"
-        echo "   • 5 Python versions tested"
-        echo "   • 3 operating systems tested"
-        echo "   • Performance benchmarks included"
-        echo "   • Real-world scenario testing"
-        echo "   • Backward compatibility verified"
-        echo ""
-        echo "🚀 jsonQ v3.0 - Production Ready!"
+      - name: Test Results Summary
+        run: |
+          echo "🎉 CI/CD Pipeline Summary"
+          echo "========================"
+          echo "✅ Code Quality: ${{ needs.code-quality.result }}"
+          echo "✅ Test Matrix: ${{ needs.test-matrix.result }}"
+          echo "✅ Performance: ${{ needs.performance-tests.result }}"
+          echo "✅ Integration: ${{ needs.integration-tests.result }}"
+          echo "✅ Documentation: ${{ needs.documentation-tests.result }}"
+          echo ""
+          echo "📊 Test Statistics:"
+          echo "   • 61 comprehensive test cases"
+          echo "   • 100% feature coverage"
+          echo "   • 5 Python versions tested"
+          echo "   • 3 operating systems tested"
+          echo "   • Performance benchmarks included"
+          echo "   • Real-world scenario testing"
+          echo "   • Backward compatibility verified"
+          echo ""
+          echo "🚀 jsonQ v3.0 - Production Ready!"

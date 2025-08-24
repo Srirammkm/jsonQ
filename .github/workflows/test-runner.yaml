@@ -61,9 +61,9 @@ jobs:
           import sys
           sys.path.append('.')
           from src.jquery import Query
-          from sampledata.data import test_data
+          from sampledata import data
 
-          query = Query(test_data())
+          query = Query(data.test_data())
 
           # Test all operators
           operators = {
@@ -93,9 +93,9 @@ jobs:
           import sys
           sys.path.append('.')
           from src.jquery import Query
-          from sampledata.data import test_data
+          from sampledata import data
 
-          query = Query(test_data())
+          query = Query(data.test_data())
 
           # Test core methods
           methods = {
@@ -137,10 +137,10 @@ jobs:
           import sys
           sys.path.append('.')
           from src.jquery import Query
-          from sampledata.data import test_data
+          from sampledata import data
 
           # Test indexing with large dataset
-          large_data = test_data() * 100  # 600 records
+          large_data = data.test_data() * 100  # 600 records
           large_query = Query(large_data)
 
           print(f'✅ Large dataset handling:')
@@ -186,7 +186,7 @@ jobs:
 
       - name: Test real-world scenario
         run: |
-          echo "🌍 Testing real-world data processing scenario..."
+          echo "Testing real-world data processing scenario..."
           python -c "
           import sys
           sys.path.append('.')
@@ -194,24 +194,27 @@ jobs:
           import json
 
           # Simulate e-commerce data
-          products = [
-              {'id': i, 'name': f'Product {i}', 'price': 10 + (i % 100), 
-               'category': ['electronics', 'books', 'clothing', 'home'][i % 4],
-               'rating': 3.0 + (i % 3), 'in_stock': i % 3 != 0}
-              for i in range(1000)
-          ]
+          products = []
+          for i in range(1000):
+              product = {
+                  'id': i,
+                  'name': f'Product {i}',
+                  'price': 10 + (i % 100),
+                  'category': ['electronics', 'books', 'clothing', 'home'][i % 4],
+                  'rating': 3.0 + (i % 3),
+                  'in_stock': i % 3 != 0
+              }
+              products.append(product)
 
           query = Query(products)
 
           # Complex business analysis
-          analysis = {
-              'total_products': query.count(),
-              'avg_price': query.avg('price'),
-              'high_rated': query.where('rating >= 4.5').count(),
-              'in_stock': query.where('in_stock == True').count(),
-              'electronics_avg_price': query.where('category == electronics').avg('price'),
-              'expensive_items': query.where('price > 80').count(),
-          }
+          total_products = query.count()
+          avg_price = query.avg('price')
+          high_rated = query.where('rating >= 4.5').count()
+          in_stock = query.where('in_stock == True').count()
+          electronics_avg_price = query.where('category == electronics').avg('price')
+          expensive_items = query.where('price > 80').count()
 
           # Category breakdown
           categories = {}
@@ -223,18 +226,18 @@ jobs:
                   'in_stock_ratio': items.where('in_stock == True').count() / items.count()
               }
 
-          print('✅ Real-world scenario completed successfully')
-          print(f'   Total products analyzed: {analysis[\"total_products\"]}')
-          print(f'   Average price: ${analysis[\"avg_price\"]:.2f}')
-          print(f'   High-rated products: {analysis[\"high_rated\"]}')
+          print('Real-world scenario completed successfully')
+          print(f'   Total products analyzed: {total_products}')
+          print(f'   Average price: {avg_price:.2f}')
+          print(f'   High-rated products: {high_rated}')
           print(f'   Categories analyzed: {len(categories)}')
 
           # Verify results make sense
-          assert analysis['total_products'] == 1000
-          assert 10 <= analysis['avg_price'] <= 110
+          assert total_products == 1000
+          assert 10 <= avg_price <= 110
           assert len(categories) == 4
 
-          print('✅ All assertions passed - data integrity confirmed')
+          print('All assertions passed - data integrity confirmed')
           "
 
   test-summary:
@@ -260,11 +263,9 @@ jobs:
           echo "   • Performance features tested"
           echo "   • Real-world scenarios verified"
           echo ""
-          if [[ "${{ needs.quick-test.result }}" == "success" && 
-                "${{ needs.feature-validation.result }}" == "success" && 
-                "${{ needs.integration-test.result }}" == "success" ]]; then
-            echo "🚀 All tests passed! jsonQ is ready for production."
-            echo "📈 Performance: 5x faster than previous versions"
+          if [[ "${{ needs.quick-test.result }}" == "success" && "${{ needs.feature-validation.result }}" == "success" && "${{ needs.integration-test.result }}" == "success" ]]; then
+            echo "� Aell tests passed! jsonQ is ready for production."
+            echo "� PeSrformance: 5x faster than previous versions"
             echo "🛡️  Security: No exec() calls, fully safe"
             echo "🎯 Quality: 100% test coverage"
           else

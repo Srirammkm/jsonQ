@@ -48,10 +48,10 @@ jobs:
         import sys
         sys.path.append('.')
         from src.jquery import Query
-        from sampledata.data import test_data
+        from sampledata import data
         
         # Stress test with large dataset
-        large_data = test_data() * 5000  # 30,000 records
+        large_data = data.test_data() * 5000  # 30,000 records
         query = Query(large_data)
         
         # Run intensive operations
@@ -75,10 +75,10 @@ jobs:
         import sys
         sys.path.append('.')
         from src.jquery import Query
-        from sampledata.data import test_data
+        from sampledata import data
         
         def worker(worker_id):
-            query = Query(test_data() * 100)
+            query = Query(data.test_data() * 100)
             start_time = time.time()
             
             # Perform various operations
@@ -178,9 +178,9 @@ jobs:
         import sys
         sys.path.append('.')
         from src.jquery import Query
-        from sampledata.data import test_data
+        from sampledata import data
         
-        query = Query(test_data())
+        query = Query(data.test_data())
         
         # Test all advanced features
         result1 = query.where('name.first like Th').count()
@@ -222,10 +222,10 @@ jobs:
         import sys
         sys.path.append('.')
         from src.jquery import Query
-        from sampledata.data import test_data
+        from sampledata import data
         
         # Performance benchmarks
-        large_data = test_data() * 1000  # 6,000 records
+        large_data = data.test_data() * 1000  # 6,000 records
         query = Query(large_data)
         
         # Benchmark various operations
