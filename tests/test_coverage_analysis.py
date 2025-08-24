@@ -110,7 +110,11 @@ class TestMissingCoverage(unittest.TestCase):
         """Test type conversion with various data types."""
         # Test boolean conversion
         bool_query = Query(
-            [{"active": True, "name": "test1"}, {"active": False, "name": "test2"}, {"active": "true", "name": "test3"}]
+            [
+                {"active": True, "name": "test1"},
+                {"active": False, "name": "test2"},
+                {"active": "true", "name": "test3"},
+            ]
         )
 
         true_items = bool_query.where("active == true").tolist()
@@ -119,7 +123,11 @@ class TestMissingCoverage(unittest.TestCase):
 
         # Test numeric string conversion
         numeric_query = Query(
-            [{"score": "85", "name": "test1"}, {"score": 90, "name": "test2"}, {"score": "75", "name": "test3"}]
+            [
+                {"score": "85", "name": "test1"},
+                {"score": 90, "name": "test2"},
+                {"score": "75", "name": "test3"},
+            ]
         )
 
         high_scores = numeric_query.where("score > 80").tolist()
@@ -245,7 +253,11 @@ class TestMissingCoverage(unittest.TestCase):
             self.assertIsNone(value)
 
         # Test with duplicate keys (should overwrite)
-        dup_data = [{"id": "same", "value": 1}, {"id": "same", "value": 2}, {"id": "different", "value": 3}]
+        dup_data = [
+            {"id": "same", "value": 1},
+            {"id": "same", "value": 2},
+            {"id": "different", "value": 3},
+        ]
         dup_query = Query(dup_data)
         result_dict = dup_query.to_dict("id", "value")
         self.assertEqual(result_dict["same"], 2)  # Should be overwritten
@@ -312,7 +324,10 @@ class TestMissingCoverage(unittest.TestCase):
         """Test complex method chaining scenarios."""
         # Test long chain with all method types
         result = (
-            self.sample.where("sex == M").where("age >= 35").order_by("age", ascending=False).pluck("name", "age", "family")
+            self.sample.where("sex == M")
+            .where("age >= 35")
+            .order_by("age", ascending=False)
+            .pluck("name", "age", "family")
         )
 
         # pluck returns a list, not a Query object

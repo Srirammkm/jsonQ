@@ -50,7 +50,12 @@ class QueryIndex:
         return self.field_indexes.get(field, {}).get(value, [])
 
     def range_query(
-        self, field: str, min_val: Any, max_val: Any, include_min: bool = True, include_max: bool = True
+        self,
+        field: str,
+        min_val: Any,
+        max_val: Any,
+        include_min: bool = True,
+        include_max: bool = True,
     ) -> List[int]:
         """Get indices for range query."""
         if field not in self.sorted_indexes:
@@ -60,7 +65,9 @@ class QueryIndex:
         indices = []
 
         for value, idx in sorted_vals:
-            if (include_min and value >= min_val or not include_min and value > min_val) and (
+            if (
+                include_min and value >= min_val or not include_min and value > min_val
+            ) and (
                 include_max and value <= max_val or not include_max and value < max_val
             ):
                 indices.append(idx)
@@ -91,7 +98,9 @@ class Query:
         "regex": lambda x, y: bool(re.search(str(y), str(x))),
         "startswith": lambda x, y: str(x).startswith(str(y)),
         "endswith": lambda x, y: str(x).endswith(str(y)),
-        "between": lambda x, y: y[0] <= x <= y[1] if isinstance(y, (list, tuple)) and len(y) == 2 else False,
+        "between": lambda x, y: (
+            y[0] <= x <= y[1] if isinstance(y, (list, tuple)) and len(y) == 2 else False
+        ),
     }
 
     # Cache for parsed conditions
@@ -106,7 +115,9 @@ class Query:
             use_index: Whether to use indexing for performance optimization
         """
         self.data = data if isinstance(data, list) else []
-        self.use_index = use_index and len(self.data) > 100  # Only use index for larger datasets
+        self.use_index = (
+            use_index and len(self.data) > 100
+        )  # Only use index for larger datasets
         self.index = QueryIndex() if self.use_index else None
         self._result_cache: Dict[str, List[Dict[str, Any]]] = {}
         self._indexed_fields: Set[str] = set()
@@ -136,7 +147,9 @@ class Query:
         except (KeyError, TypeError, AttributeError):
             return None
 
-    def _evaluate_condition(self, obj: Dict[str, Any], field: str, op: str, value: Any) -> bool:
+    def _evaluate_condition(
+        self, obj: Dict[str, Any], field: str, op: str, value: Any
+    ) -> bool:
         """
         Safely evaluate a condition without using exec().
 
@@ -185,7 +198,9 @@ class Query:
         except (ValueError, TypeError, KeyError, AttributeError):
             return False
 
-    def _evaluate_wildcard_condition(self, obj: Dict[str, Any], field: str, op: str, value: str) -> bool:
+    def _evaluate_wildcard_condition(
+        self, obj: Dict[str, Any], field: str, op: str, value: str
+    ) -> bool:
         """
         Handle wildcard conditions for nested list structures.
 
@@ -268,7 +283,9 @@ class Query:
 
     def _get_cache_key(self, condition: str) -> str:
         """Generate cache key for condition."""
-        data_hash = hashlib.md5(json.dumps(self.data, sort_keys=True, default=str).encode()).hexdigest()[:8]
+        data_hash = hashlib.md5(
+            json.dumps(self.data, sort_keys=True, default=str).encode()
+        ).hexdigest()[:8]
         return f"{condition}_{data_hash}"
 
     def _parse_condition(self, condition: str) -> tuple:
@@ -286,7 +303,21 @@ class Query:
             return self._condition_cache[condition]
 
         # Handle operators with spaces - order matters for proper parsing
-        operators = ["not_in", "between", "startswith", "endswith", "like", "regex", ">=", "<=", "==", "!=", ">", "<", " in "]
+        operators = [
+            "not_in",
+            "between",
+            "startswith",
+            "endswith",
+            "like",
+            "regex",
+            ">=",
+            "<=",
+            "==",
+            "!=",
+            ">",
+            "<",
+            " in ",
+        ]
 
         for op in operators:
             if op in condition:
@@ -338,7 +369,12 @@ class Query:
             field, op, value = self._parse_condition(condition)
 
             # Use index for simple equality operations on large datasets
-            if self.use_index and op == "==" and "*" not in field and not isinstance(value, (list, tuple)):
+            if (
+                self.use_index
+                and op == "=="
+                and "*" not in field
+                and not isinstance(value, (list, tuple))
+            ):
                 self._ensure_index(field)
                 indices = self.index.get_indices(field, self._convert_value(value, ""))
                 filtered_data = [self.data[i] for i in indices if i < len(self.data)]
@@ -429,7 +465,11 @@ class Query:
             New Query instance with sorted data
         """
         try:
-            sorted_data = sorted(self.data, key=lambda x: self._get_nested_value(x, field) or "", reverse=not ascending)
+            sorted_data = sorted(
+                self.data,
+                key=lambda x: self._get_nested_value(x, field) or "",
+                reverse=not ascending,
+            )
             return Query(sorted_data, use_index=False)
         except (TypeError, AttributeError):
             return Query(self.data.copy(), use_index=False)
@@ -718,7 +758,9 @@ class Query:
         filtered_data = [item for item in self.data if func(item)]
         return Query(filtered_data, use_index=False)
 
-    def to_dict(self, key_field: str, value_field: Optional[str] = None) -> Dict[Any, Any]:
+    def to_dict(
+        self, key_field: str, value_field: Optional[str] = None
+    ) -> Dict[Any, Any]:
         """
         Convert query result to dictionary.
 
@@ -753,7 +795,9 @@ class Query:
         """Make Query iterable."""
         return iter(self.data)
 
-    def __getitem__(self, index: Union[int, slice]) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
+    def __getitem__(
+        self, index: Union[int, slice]
+    ) -> Union[Dict[str, Any], List[Dict[str, Any]]]:
         """Support indexing and slicing."""
         return self.data[index]
 

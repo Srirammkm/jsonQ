@@ -179,7 +179,12 @@ class TestAdvancedFeatures(unittest.TestCase):
     def test_apply_and_filter_func(self):
         """Test custom function application and filtering."""
         # Apply function to add computed field
-        with_full_name = self.sample.apply(lambda x: {**x, "full_name": f"{x['name']['first']} {x['name'].get('last', '')}"})
+        with_full_name = self.sample.apply(
+            lambda x: {
+                **x,
+                "full_name": f"{x['name']['first']} {x['name'].get('last', '')}",
+            }
+        )
 
         first_item = with_full_name.first()
         self.assertIn("full_name", first_item)
@@ -227,7 +232,12 @@ class TestAdvancedFeatures(unittest.TestCase):
 
     def test_chaining_advanced_features(self):
         """Test chaining of advanced features."""
-        result = self.sample.where("sex == M").where("age >= 1000").order_by("age", ascending=False).pluck("name", "age")
+        result = (
+            self.sample.where("sex == M")
+            .where("age >= 1000")
+            .order_by("age", ascending=False)
+            .pluck("name", "age")
+        )
 
         self.assertEqual(len(result), 3)
         # Should be ordered by age descending

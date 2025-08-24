@@ -40,7 +40,13 @@ class TestEdgeCases(unittest.TestCase):
     def test_malformed_data_handling(self):
         """Test handling of malformed or unusual data structures."""
         # Test with non-dictionary items
-        mixed_data = [{"name": "valid", "age": 25}, "string_item", 123, None, {"name": "also_valid", "age": 30}]
+        mixed_data = [
+            {"name": "valid", "age": 25},
+            "string_item",
+            123,
+            None,
+            {"name": "also_valid", "age": 30},
+        ]
 
         mixed_query = Query(mixed_data)
 
@@ -81,7 +87,9 @@ class TestEdgeCases(unittest.TestCase):
         self.assertIn("deep_value_2", deep_values)
 
         # Test deep nested filtering
-        filtered = deep_query.where("level1.level2.level3.level4.value == deep_value_1").tolist()
+        filtered = deep_query.where(
+            "level1.level2.level3.level4.value == deep_value_1"
+        ).tolist()
         self.assertEqual(len(filtered), 1)
 
     def test_circular_references(self):
@@ -131,7 +139,10 @@ class TestEdgeCases(unittest.TestCase):
         """Test handling of very large string values."""
         large_text = "x" * 10000  # 10KB string
 
-        large_data = [{"id": 1, "content": large_text, "type": "large"}, {"id": 2, "content": "small", "type": "small"}]
+        large_data = [
+            {"id": 1, "content": large_text, "type": "large"},
+            {"id": 2, "content": "small", "type": "small"},
+        ]
 
         large_query = Query(large_data)
 
@@ -252,7 +263,12 @@ class TestEdgeCases(unittest.TestCase):
 
         # Complex chained query
         start_time = time.time()
-        result = large_query.where("sex == M").where("age > 100").order_by("age", ascending=False).group_by("family")
+        result = (
+            large_query.where("sex == M")
+            .where("age > 100")
+            .order_by("age", ascending=False)
+            .group_by("family")
+        )
         end_time = time.time()
 
         # Should complete in reasonable time (< 1 second)
@@ -268,7 +284,14 @@ class TestEdgeCases(unittest.TestCase):
         # Create large dataset
         large_data = []
         for i in range(1000):
-            large_data.append({"id": i, "value": i % 100, "category": f"cat_{i % 10}", "data": f"item_{i}"})
+            large_data.append(
+                {
+                    "id": i,
+                    "value": i % 100,
+                    "category": f"cat_{i % 10}",
+                    "data": f"item_{i}",
+                }
+            )
 
         large_query = Query(large_data)
 

@@ -189,13 +189,20 @@ def showcase_data_manipulation():
 
     # Apply transformations
     print("\nWith full names:")
-    with_full_names = query.apply(lambda x: {**x, "full_name": f"{x['name']['first']} {x['name'].get('last', '')}"})
+    with_full_names = query.apply(
+        lambda x: {
+            **x,
+            "full_name": f"{x['name']['first']} {x['name'].get('last', '')}",
+        }
+    )
 
     for item in with_full_names.tolist()[:3]:
         print(f"  {item['full_name'].strip()}")
 
     # Custom filtering
-    print(f"\nHigh performers (score > 80): {query.filter_func(lambda x: x['score'] > 80).count()}")
+    print(
+        f"\nHigh performers (score > 80): {query.filter_func(lambda x: x['score'] > 80).count()}"
+    )
 
     # Convert to dictionary
     name_to_score = query.to_dict("name.first", "score")
@@ -210,7 +217,9 @@ def showcase_pagination_sampling():
 
     # Pagination
     page1 = query.paginate(page=1, per_page=3)
-    print(f"Page 1 of {page1['total_pages']} (showing {len(page1['data'])} of {page1['total']}):")
+    print(
+        f"Page 1 of {page1['total_pages']} (showing {len(page1['data'])} of {page1['total']}):"
+    )
     for item in page1["data"]:
         print(f"  {item['name']['first']}")
 
@@ -233,7 +242,10 @@ def showcase_complex_queries():
 
     # Complex chaining
     result = (
-        query.where("active == True").where("score >= 80").order_by("score", ascending=False).pluck("name", "score", "family")
+        query.where("active == True")
+        .where("score >= 80")
+        .order_by("score", ascending=False)
+        .pluck("name", "score", "family")
     )
 
     print("Active high performers (score >= 80):")

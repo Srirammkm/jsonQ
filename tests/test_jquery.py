@@ -11,7 +11,10 @@ class TestSimple(unittest.TestCase):
 
     def test_where_1(self):
         self.assertEqual(
-            sample.where("sex == M").where(f"peas in favorite.food").where("age == 1000").tolist(),
+            sample.where("sex == M")
+            .where(f"peas in favorite.food")
+            .where("age == 1000")
+            .tolist(),
             [
                 {
                     "name": {"first": "Thanos", "last": None},
@@ -64,10 +67,15 @@ class TestSimple(unittest.TestCase):
         self.assertEqual(len(sample.where("sex == M").tolist(limit=2)), 2)
 
     def test_get_0(self):
-        self.assertEqual(sample.where("sex == M").where("age > 999").get("age"), [1500, 1054, 1000])
+        self.assertEqual(
+            sample.where("sex == M").where("age > 999").get("age"), [1500, 1054, 1000]
+        )
 
     def test_get_1(self):
-        self.assertEqual(sample.where("name.first == Joey").get("favorite.food")[0], "don't share food")
+        self.assertEqual(
+            sample.where("name.first == Joey").get("favorite.food")[0],
+            "don't share food",
+        )
 
 
 if __name__ == "__main__":
