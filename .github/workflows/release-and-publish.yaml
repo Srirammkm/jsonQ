@@ -81,20 +81,7 @@ jobs:
         echo "🔍 Checking package..."
         twine check dist/*
 
-    - name: Publish to Test PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        echo "🧪 Publishing to Test PyPI..."
-        twine upload --repository testpypi dist/*
-
-    - name: Test installation from Test PyPI
-      run: |
-        echo "📥 Testing installation from Test PyPI..."
-        pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ jsonQ
-        python -c "from jquery import Query; print('✅ Test PyPI installation successful')"
-
+    
     - name: Publish to PyPI
       env:
         TWINE_USERNAME: __token__
