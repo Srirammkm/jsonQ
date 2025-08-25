@@ -1,21 +1,42 @@
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
 [project]
 name = "jsonQ"
-version = "0.0.9"
+version = "3.0.0"
 authors = [
   { name="Sriram Manikanth", email="msriram0803@gmail.com" },
 ]
-description = "Query your json data in python like no-sql"
+description = "A powerful Python library for querying JSON data with jQuery-like syntax"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Database",
+    "Topic :: Text Processing :: General",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+keywords = ["json", "query", "data", "filter", "search", "nosql", "database"]
 
 [project.urls]
 "Homepage" = "https://github.com/Srirammkm/jsonQ"
 "Bug Tracker" = "https://github.com/Srirammkm/jsonQ/issues"
+"Documentation" = "https://github.com/Srirammkm/jsonQ#readme"
+"Source Code" = "https://github.com/Srirammkm/jsonQ"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
