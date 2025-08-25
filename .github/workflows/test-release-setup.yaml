@@ -1,0 +1,69 @@
+name: Test Release Setup
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+permissions:
+  contents: write
+  packages: write
+  actions: read
+
+jobs:
+  test-release-setup:
+    name: Test Release Setup
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Test package structure
+      run: |
+        echo "📦 Testing package structure..."
+        python -c "
+        import sys
+        sys.path.insert(0, 'src')
+        from jsonQ import Query
+        
+        # Test basic functionality
+        query = Query([{'test': 'data'}])
+        assert len(query) == 1
+        assert query.first()['test'] == 'data'
+        
+        print('✅ Package structure is correct')
+        "
+
+    - name: Test GitHub CLI
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "🔧 Testing GitHub CLI access..."
+        gh auth status
+        echo "✅ GitHub CLI is working"
+
+    - name: Test permissions
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "🔐 Testing repository permissions..."
+        gh api repos/${{ github.repository }} --jq '.permissions'
+        echo "✅ Permissions check complete"
+
+    - name: Simulate release creation (dry run)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "🎯 Simulating release creation..."
+        echo "Repository: ${{ github.repository }}"
+        echo "Actor: ${{ github.actor }}"
+        echo "Token available: $([ -n "$GITHUB_TOKEN" ] && echo "Yes" || echo "No")"
+        
+        # Test that we can access the repo
+        gh repo view ${{ github.repository }} --json name,owner
+        
+        echo "✅ Release setup test completed successfully"
