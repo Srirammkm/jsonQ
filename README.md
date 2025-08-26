@@ -50,7 +50,7 @@ pip install jsonQ
 ## 🚀 Quick Start
 
 ```python
-from src.jquery import Query
+from jquery import Query
 import json
 
 # Sample data
@@ -753,4 +753,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
   <strong>Made with ❤️ for Python developers who love clean, intuitive APIs</strong>
   <br>
   <sub>jsonQ - jQuery for Python Data</sub>
+
 </p>
