@@ -25,7 +25,7 @@ pip install jsonQ
 ## 🚀 Quick Start
 
 ```python
-from jquery import Query
+from jsonQ import Query
 import json
 
 # Sample data

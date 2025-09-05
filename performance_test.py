@@ -5,7 +5,14 @@ Performance test to demonstrate improvements in the Query module.
 
 import time
 import json
-from src.jquery import Query
+import sys
+import os
+
+# Add both src and project root to Python path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.dirname(__file__))
+
+from jsonQ import Query
 from sampledata import data
 
 def generate_large_dataset(size=1000):

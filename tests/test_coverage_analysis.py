@@ -6,9 +6,15 @@ This file identifies missing test coverage and creates comprehensive tests.
 
 import re
 import unittest
+import sys
+import os
+
+# Add both src and project root to Python path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sampledata import data
-from src.jquery import Query, QueryIndex
+from jsonQ import Query, QueryIndex
 
 
 class TestMissingCoverage(unittest.TestCase):
