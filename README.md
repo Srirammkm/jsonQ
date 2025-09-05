@@ -16,31 +16,6 @@
 
 **A powerful, intuitive, and lightning-fast query interface for Python dictionaries and JSON data.** Query nested data structures with jQuery-style syntax, advanced operators, and enterprise-grade performance.
 
-## ✨ Key Features
-
-### 🚀 **Performance & Scalability**
-- **5x faster** than traditional approaches
-- **Smart indexing** for datasets >100 records
-- **Query caching** with LRU eviction
-- **Memory efficient** - 40% reduction in usage
-- **Concurrent safe** for multi-threaded applications
-
-### 🛡️ **Security & Reliability**
-- **No `exec()` calls** - completely safe
-- **Type safe** with full type hints
-- **Comprehensive error handling**
-- **100% test coverage** (61 test cases)
-- **Production ready** with robust edge case handling
-
-### 💡 **Developer Experience**
-- **jQuery-style chaining** for intuitive queries
-- **Rich operator set** - 12 different operators
-- **Nested field support** with dot notation
-- **Wildcard queries** for arrays and lists
-- **Magic methods** for Pythonic usage
-- **Comprehensive documentation** and examples
-
-
 ## 📦 Installation
 
 ```bash
